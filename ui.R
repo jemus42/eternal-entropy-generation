@@ -27,23 +27,23 @@ shinyUI(
             title = "sr",
             fluidRow(
               column(
-                width = 4,
+                width = 2,
                 numericInput(
                   inputId = "sr_d6_count",
                   label = "D6 Count",
                   value = 5,
                   min = 1,
                   step = 1,
-                  width = "25%"
+                  width = "100%"
                 ),
                 actionButton(
                   inputId = "sr_roll_btn",
                   label = "Roll!",
-                  width = "25%"
+                  width = "100%"
                 )
               ),
               column(
-                width = 8,
+                width = 9, offset = 1,
                 htmlOutput(outputId = "sr_result")
               )
             )
