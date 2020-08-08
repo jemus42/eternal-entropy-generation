@@ -14,14 +14,26 @@ rulesets <- c(
 label_throw <- function(throw) {
   purrr::map(throw, ~{
     if (.x >= 5) {
-      tags$span(class = "sr-dice sr-success alert alert-success", .x)
+      tags$span(class = "sr-dice sr-success label label-success", .x)
     } else if (.x == 1)
       {
-      tags$span(class = "sr-dice sr-glitch alert alert-danger", .x)
+      tags$span(class = "sr-dice sr-glitch label label-danger", .x)
     } else {
-      tags$span(class = "sr-dice alert alert-info", .x)
+      tags$span(class = "sr-dice label label-info", .x)
     }
   })
 }
 
 
+# Cthulu ----
+
+cot_luck <- function() {
+  # throw <- sample(x = 6, size = 3, replace = TRUE)
+  # sum(throw) * 5
+}
+
+cot_luck()
+
+d100 <- function() {
+  sample(x = 100, size = 1, replace = TRUE)
+}

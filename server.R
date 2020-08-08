@@ -8,7 +8,7 @@ shinyServer(function(input, output, session) {
   sr_res <- eventReactive(input$sr_roll_btn, ignoreInit = TRUE, {
     d6 <- isolate(input$sr_d6_count)
 
-    throw <- sample(1:6, size = d6, replace = TRUE, prob = c(.8, .1, .1, .1, .5, .5))
+    throw <- sample(1:6, size = d6, replace = TRUE)
     list(
       numbers = throw,
       successes = sum(throw >= 5),
@@ -19,25 +19,36 @@ shinyServer(function(input, output, session) {
   output$sr_result <- renderUI({
     res <- sr_res()
 
-    extra_classes <- "alert-success"
-    if (res$successes == 0) extra_classes <- "alert-warning"
-    if (res$glitch) extra_classes <- "alert-danger"
+    extra_classes <- "label-success"
+    if (res$successes == 0) extra_classes <- "label-warning"
+    if (res$glitch) extra_classes <- "label-danger"
 
     fluidRow(
       column(
-        class = paste("success-count alert", extra_classes),
-        role = "alert",
+        # class = paste("success-count alert", extra_classes),
+        role = "label",
         id = "sr6-success-count",
         width = 1,
-        glue("{res$successes}")
+        h3("Erfolge"),
+        tags$span(class = paste("success-count label", extra_classes), res$successes)
       ),
       column(
         class = "dice-display",
         id = "sr6-dice-display",
         width = 10, offset = 1,
+        h3("Würfel"),
         label_throw(res$numbers)
       )
     )
+  })
+
+  # Cthulu ----
+  cot_d100_res <- eventReactive(input$cot_d100, ignoreInit = TRUE, {
+    sample(100, size = 1, replace = TRUE)
+  })
+
+  output$cot_d100_out <- renderText({
+    cot_d100_res()
   })
 
 })

@@ -1,16 +1,22 @@
 
 .success-count {
-  text-align: center;
   font-size: 4rem;
-  border-radius: 20%;
-  margin-top: 0.5em;
+  line-height: 10rem;
+  /*margin-top: 0.5em*/;
+}
+
+
+
+.sr-dice {
+  font-size: 3rem;
 }
 
 .dice-display {
+  line-height: 5.5rem;
   text-align: center;
-  padding: 3rem 3rem;
+  /* padding: 3rem 3rem*/;
   font-size: 2rem;
-  margin-top: 0.5em;
+  /*margin-top: 0.5em*/;
 }
 
 #sr_result {
