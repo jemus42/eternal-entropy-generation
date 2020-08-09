@@ -13,7 +13,8 @@ shinyUI(
         selectInput(
           inputId = "ruleset", width = "100%",
           label = "Ruleset",
-          choices = rulesets
+          choices = rulesets,
+          selected = "cot"
         )
         )
       ),
@@ -57,15 +58,24 @@ shinyUI(
             fluidRow(
               column(
                 width = 3,
+                h3("Keep track of your shit"),
                 numericInput(inputId = "cot_counter_mp", label = "MP", value = 11),
                 numericInput(inputId = "cot_counter_sp", label = "Stabilität", value = 33),
                 numericInput(inputId = "cot_counter_gl", label = "Glück", value = 50)
               ),
               column(
-                width = 8, offset = 1,
+                width = 3, offset = 1,
                 h3("Roll some dice"),
                 actionButton(inputId = "cot_d100", label = "1W100"),
-                tags$p(textOutput(outputId = "cot_d100_out"))
+                radioButtons(
+                  inputId = "cot_modifier", label = "Modifier",
+                  choices = c("None", "Bonus", "Malus"),
+                  selected = "None"
+                )
+              ),
+              column(
+                width = 5,
+                htmlOutput(outputId = "cot_d100_out")
               )
             )
           )

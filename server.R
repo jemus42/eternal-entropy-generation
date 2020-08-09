@@ -44,11 +44,32 @@ shinyServer(function(input, output, session) {
 
   # Cthulu ----
   cot_d100_res <- eventReactive(input$cot_d100, ignoreInit = TRUE, {
-    sample(100, size = 1, replace = TRUE)
+
+    modifier <- input$cot_modifier
+
+    cot100(bonus = modifier == "Bonus", malus = modifier == "Malus")
   })
 
-  output$cot_d100_out <- renderText({
-    cot_d100_res()
+  output$cot_d100_out <- renderUI({
+    throw <- cot_d100_res()
+
+    res_modifier_class <- switch(
+      throw$modifier,
+     "Bonus" = "label-success",
+     "Malus" = "label-danger",
+     "None" = "label-warning"
+    )
+
+    fluidRow(
+      column(
+        width = 12,
+        class = "dice-display",
+        h3("Result"),
+        tags$span(class = "cot-w1", throw$w1), br(),
+        tags$span(class = "cot-w10", paste(throw$w10, collapse = ", ")), br(),
+        tags$span(class = paste("cot-result label", res_modifier_class), throw$result)
+      )
+    )
   })
 
 })

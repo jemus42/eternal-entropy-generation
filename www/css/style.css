@@ -5,10 +5,12 @@
   /*margin-top: 0.5em*/;
 }
 
-
-
 .sr-dice {
   font-size: 3rem;
+}
+
+.cot-result {
+  font-size: larger;
 }
 
 .dice-display {
