@@ -71,6 +71,10 @@ shinyUI(
                   choices = c("None", "Bonus", "Malus"),
                   selected = "None"
                 ),
+                radioButtons(
+                  inputId = "cot_modifier_count", label = "Count",
+                  choices = 1:2, selected = 1
+                ),
                 actionButton(inputId = "cot_d100", label = "1W100")
               ),
               column(

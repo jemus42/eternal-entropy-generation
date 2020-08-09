@@ -47,7 +47,11 @@ shinyServer(function(input, output, session) {
 
     modifier <- input$cot_modifier
 
-    cot100(bonus = modifier == "Bonus", malus = modifier == "Malus")
+    cot100(
+      bonus = modifier == "Bonus",
+      malus = modifier == "Malus",
+      count = input$cot_modifier_count
+    )
   })
 
   output$cot_d100_out <- renderUI({

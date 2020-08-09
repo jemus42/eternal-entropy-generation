@@ -27,7 +27,7 @@ label_throw <- function(throw) {
 
 # Cthulu ----
 
-cot100 <- function(bonus = FALSE, malus = FALSE) {
+cot100 <- function(bonus = FALSE, malus = FALSE, count = 1) {
   if (bonus & malus) stop("Can't have it both ways")
 
   # browser()
@@ -37,6 +37,8 @@ cot100 <- function(bonus = FALSE, malus = FALSE) {
     modifier = c("Bonus", "Malus")[c(bonus, malus)],
     result = NA
   )
+
+  if (count == 2) ret$w10 <- c(ret$w10, sample(seq(0, 90, 10), size = 1, replace = TRUE))
 
   if (length(ret$modifier) == 0) ret$modifier <- "None"
 
