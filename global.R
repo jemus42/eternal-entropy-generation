@@ -33,8 +33,9 @@ cot100 <- function(bonus = FALSE, malus = FALSE) {
   # browser()
   ret <- list(
     w1 = sample(0:9, size = 1),
-    w10 = sample(seq(0, 90, 10), size = 1),
-    modifier = c("Bonus", "Malus")[c(bonus, malus)]
+    w10 = sample(seq(0, 90, 10), size = 2),
+    modifier = c("Bonus", "Malus")[c(bonus, malus)],
+    result = NA
   )
 
   if (length(ret$modifier) == 0) ret$modifier <- "None"
@@ -42,18 +43,17 @@ cot100 <- function(bonus = FALSE, malus = FALSE) {
   modifier_fun <- switch(ret$modifier,
                          "Bonus" = min,
                          "Malus" = max,
-                         "None" = identity
+                         "None" = dplyr::first
   )
 
-  if (bonus | malus ) {
-    ret[["w10"]] <- c(ret$w10, sample(seq(0, 90, 10), size = 1))
-  }
+  ret$result <- ret$w1 + ret$w10
+  purrr::map_dbl(ret$result, ~{
+    if (.x == 0) 100 else .x
+  })
 
-  if (modifier_fun(ret$w10) == 0 & ret$w1 == 0) {
-    ret["result"] <- 100
-  } else {
-    ret["result"] <- modifier_fun(ret$w10) + ret$w1
-  }
+  ret$result <- modifier_fun(ret$result)
+
+  if (!bonus & !malus) ret$w10 <- dplyr::first(ret$w10)
 
   ret
 }
