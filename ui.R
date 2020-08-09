@@ -57,8 +57,9 @@ shinyUI(
             title = "cot",
             fluidRow(
               column(
-                width = 3,
+                width = 2,
                 h3("Keep track of your shit"),
+                numericInput(inputId = "cot_counter_tp", label = "TP", value = 11),
                 numericInput(inputId = "cot_counter_mp", label = "MP", value = 11),
                 numericInput(inputId = "cot_counter_sp", label = "Stabilität", value = 33),
                 numericInput(inputId = "cot_counter_gl", label = "Glück", value = 50)
@@ -72,7 +73,7 @@ shinyUI(
                   selected = "None"
                 ),
                 radioButtons(
-                  inputId = "cot_modifier_count", label = "Count",
+                  inputId = "cot_modifier_count", label = "# of Modifiers",
                   choices = 1:2, selected = 1
                 ),
                 actionButton(inputId = "cot_d100", label = "1W100")
