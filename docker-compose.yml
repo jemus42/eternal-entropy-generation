@@ -1,0 +1,16 @@
+
+version: "3.7"
+
+services:
+  attrakttv:
+    container_name: entropy
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    user: 'shiny'
+    # Uncomment the lines below to disable application logs STDOUT output
+    # environment:
+    #   - APPLICATION_LOGS_TO_STDOUT=false
+    ports:
+      - '3840:3838'
