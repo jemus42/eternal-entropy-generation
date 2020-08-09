@@ -33,7 +33,7 @@ cot100 <- function(bonus = FALSE, malus = FALSE) {
   # browser()
   ret <- list(
     w1 = sample(0:9, size = 1),
-    w10 = sample(seq(0, 90, 10), size = 2),
+    w10 = sample(seq(0, 90, 10), size = 2, replace = TRUE),
     modifier = c("Bonus", "Malus")[c(bonus, malus)],
     result = NA
   )
@@ -47,7 +47,7 @@ cot100 <- function(bonus = FALSE, malus = FALSE) {
   )
 
   ret$result <- ret$w1 + ret$w10
-  purrr::map_dbl(ret$result, ~{
+  ret$result <- purrr::map_dbl(ret$result, ~{
     if (.x == 0) 100 else .x
   })
 
@@ -55,13 +55,22 @@ cot100 <- function(bonus = FALSE, malus = FALSE) {
 
   if (!bonus & !malus) ret$w10 <- dplyr::first(ret$w10)
 
+  ret$string <- glue("{ret$w1} + ({paste(ret$w10, collapse = ',')}) = {ret$result}")
+
   ret
 }
 
 # cot100()
-# cot100(bonus = TRUE)
-# cot100(malus = TRUE)
-
+# # cot100(bonus = TRUE)
+# # cot100(malus = TRUE)
+#
 # summary(replicate(10000, cot100()$result))
 # summary(replicate(10000, cot100(bonus = TRUE)$result))
 # summary(replicate(10000, cot100(malus = TRUE)$result))
+#
+# purrr::map_df(1:1000, ~{
+#   cot100(TRUE) %>%
+#     as_tibble()
+# })
+#
+
