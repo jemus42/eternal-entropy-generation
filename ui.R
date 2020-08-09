@@ -66,12 +66,12 @@ shinyUI(
               column(
                 width = 3, offset = 1,
                 h3("Roll some dice"),
-                actionButton(inputId = "cot_d100", label = "1W100"),
                 radioButtons(
                   inputId = "cot_modifier", label = "Modifier",
                   choices = c("None", "Bonus", "Malus"),
                   selected = "None"
-                )
+                ),
+                actionButton(inputId = "cot_d100", label = "1W100")
               ),
               column(
                 width = 5,

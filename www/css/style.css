@@ -9,6 +9,10 @@
   font-size: 3rem;
 }
 
+#cot_d100 {
+  margin-top: 1em;
+}
+
 .cot-result {
   font-size: larger;
 }
