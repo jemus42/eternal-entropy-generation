@@ -61,7 +61,7 @@ shinyUI(
                 h3("Keep track of your shit"),
                 numericInput(inputId = "cot_counter_tp", label = "TP", value = 11),
                 numericInput(inputId = "cot_counter_mp", label = "MP", value = 11),
-                numericInput(inputId = "cot_counter_sp", label = "Stabilität", value = 33),
+                numericInput(inputId = "cot_counter_sp", label = "Stabilität", value = 55),
                 numericInput(inputId = "cot_counter_gl", label = "Glück", value = 50)
               ),
               column(
