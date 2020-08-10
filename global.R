@@ -74,3 +74,36 @@ cot100 <- function(bonus = FALSE, malus = FALSE, count = 1) {
 # })
 #
 
+
+cot_dice <- function(sides = 4, bonus = FALSE, malus = FALSE, mod_count = 1) {
+  if (bonus & malus) stop("Can't have it both ways")
+
+  ret <- list(
+    sides = sides,
+    dice = sample(sides, size = 1),
+    modifier = c("Bonus", "Malus")[c(bonus, malus)],
+    result = NA
+  )
+
+  if (bonus | malus) {
+    ret$dice <- c(ret$dice, sample(sides, size = mod_count))
+  }
+
+  if (length(ret$modifier) == 0) ret$modifier <- "None"
+
+  modifier_fun <- switch(ret$modifier,
+                         "Bonus" = min,
+                         "Malus" = max,
+                         "None" = dplyr::first
+  )
+
+  ret$result <- modifier_fun(ret$dice)
+
+  #if (!bonus & !malus) ret$w10 <- dplyr::first(ret$w10)
+
+  ret
+}
+
+# cot_dice(4)
+# cot_dice(6, bonus = TRUE)
+# cot_dice(8, bonus = TRUE, mod_count = 2)

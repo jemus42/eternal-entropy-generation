@@ -51,6 +51,7 @@ shinyServer(function(input, output, session) {
     }
   })
 
+  # Dice results and corresponsing output ----
   cot_d100_res <- eventReactive(input$cot_d100, ignoreInit = TRUE, {
 
     modifier <- input$cot_modifier
@@ -78,6 +79,34 @@ shinyServer(function(input, output, session) {
       #h3("Result"),
       tags$span(class = "cot-w1", throw$w1), br(),
       tags$span(class = "cot-w10", paste(throw$w10, collapse = ", ")), br(),
+      tags$span(class = paste("cot-result label", res_modifier_class), throw$result)
+    )
+  })
+
+  # COT d4
+  cot_d4_res <- eventReactive(input$cot_d4, ignoreInit = TRUE, {
+    modifier <- input$cot_modifier
+    cot_dice(
+      sides = 4,
+      bonus = modifier == "Bonus",
+      malus = modifier == "Malus",
+      mod_count = input$cot_modifier_count
+    )
+  })
+
+  output$cot_d4_out <- renderUI({
+    throw <- cot_d4_res()
+
+    res_modifier_class <- switch(
+      throw$modifier,
+      "Bonus" = "label-success",
+      "Malus" = "label-danger",
+      "None" = "label-info"
+    )
+
+    div(
+      class = "dice-display",
+      tags$span(class = "cot-w4", paste(throw$dice, collapse = ", ")), br(),
       tags$span(class = paste("cot-result label", res_modifier_class), throw$result)
     )
   })
