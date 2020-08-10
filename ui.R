@@ -6,6 +6,7 @@ shinyUI(
     header = tags$head(
       tags$link(href = "css/style.css", rel = "stylesheet")
     ),
+    footer = useShinyjs(),
     # Main view ----
     tabPanel(title = "Roll",
       fluidRow(
@@ -56,30 +57,45 @@ shinyUI(
           tabPanel(
             title = "cot",
             fluidRow(
-              column(
-                width = 2,
-                h3("Keep track of your shit"),
-                numericInput(inputId = "cot_counter_tp", label = "TP", value = 11),
-                numericInput(inputId = "cot_counter_mp", label = "MP", value = 11),
-                numericInput(inputId = "cot_counter_sp", label = "Stabilität", value = 55),
-                numericInput(inputId = "cot_counter_gl", label = "Glück", value = 50)
+              # column(
+              #   width = 2,
+                h2("Keep track of your shit"),
+                column(3, numericInput(inputId = "cot_counter_tp", label = "TP", value = 11)),
+                column(3, numericInput(inputId = "cot_counter_mp", label = "MP", value = 11)),
+                column(3, numericInput(inputId = "cot_counter_sp", label = "Stabilität", value = 55)),
+                column(3, numericInput(inputId = "cot_counter_gl", label = "Glück", value = 50))
+              # ),
+            ),
+            fluidRow(
+              h2("Roll some dice"),
+              column(width = 2,
+                fluidRow(
+                  column(
+                    width = 6,
+                    radioButtons(
+                      inputId = "cot_modifier", label = "Modifier",
+                      choices = c("None", "Bonus", "Malus"),
+                      selected = "None"
+                    )
+                  ),
+                  hidden(
+                    column(id = "cot-modifier-wrapper",
+                      width = 6,
+                      radioButtons(
+                        inputId = "cot_modifier_count", label = "# of Modifiers",
+                        choices = 1:2, selected = 1
+                      )
+                    )
+                  )
+                ),
+                fluidRow(
+                  class = "cot-button-wrapper",
+                  actionButton(inputId = "cot_d100", label = "1W100", width = "80%"),
+                  actionButton(inputId = "cot_d4", label = "1W4", width = "80%")
+                )
               ),
               column(
-                width = 3, offset = 1,
-                h3("Roll some dice"),
-                radioButtons(
-                  inputId = "cot_modifier", label = "Modifier",
-                  choices = c("None", "Bonus", "Malus"),
-                  selected = "None"
-                ),
-                radioButtons(
-                  inputId = "cot_modifier_count", label = "# of Modifiers",
-                  choices = 1:2, selected = 1
-                ),
-                actionButton(inputId = "cot_d100", label = "1W100")
-              ),
-              column(
-                width = 5,
+                width = 6,
                 htmlOutput(outputId = "cot_d100_out")
               )
             )

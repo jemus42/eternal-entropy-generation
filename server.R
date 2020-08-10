@@ -37,12 +37,20 @@ shinyServer(function(input, output, session) {
         id = "sr6-dice-display",
         width = 10, offset = 1,
         h3("Würfel"),
-        label_throw(res$numbers)
+        label_throw_sr6(res$numbers)
       )
     )
   })
 
   # Cthulu ----
+  observeEvent(input$cot_modifier, {
+    if (input$cot_modifier != "None") {
+      show(id = "cot-modifier-wrapper")
+    } else {
+      hide(id = "cot-modifier-wrapper")
+    }
+  })
+
   cot_d100_res <- eventReactive(input$cot_d100, ignoreInit = TRUE, {
 
     modifier <- input$cot_modifier
@@ -61,18 +69,16 @@ shinyServer(function(input, output, session) {
       throw$modifier,
      "Bonus" = "label-success",
      "Malus" = "label-danger",
-     "None" = "label-warning"
+     "None" = "label-info"
     )
 
-    fluidRow(
-      column(
-        width = 12,
-        class = "dice-display",
-        h3("Result"),
-        tags$span(class = "cot-w1", throw$w1), br(),
-        tags$span(class = "cot-w10", paste(throw$w10, collapse = ", ")), br(),
-        tags$span(class = paste("cot-result label", res_modifier_class), throw$result)
-      )
+    div(
+      #width = 12,
+      class = "dice-display",
+      #h3("Result"),
+      tags$span(class = "cot-w1", throw$w1), br(),
+      tags$span(class = "cot-w10", paste(throw$w10, collapse = ", ")), br(),
+      tags$span(class = paste("cot-result label", res_modifier_class), throw$result)
     )
   })
 

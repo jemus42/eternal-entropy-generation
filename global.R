@@ -1,6 +1,7 @@
 library(shiny)
 library(shinythemes)
 library(glue)
+library(shinyjs)
 
 rulesets <- c(
   "Shadowrun" = "sr",
@@ -8,10 +9,7 @@ rulesets <- c(
   "Call of Cthulu" = "cot"
 )
 
-# throw <- sample(1:6, size = 13, replace = TRUE, prob = c(.8, .1, .1, .1, .5, .5))
-
-
-label_throw <- function(throw) {
+label_throw_sr6 <- function(throw) {
   purrr::map(throw, ~{
     if (.x >= 5) {
       tags$span(class = "sr-dice sr-success label label-success", .x)
