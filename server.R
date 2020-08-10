@@ -59,7 +59,7 @@ shinyServer(function(input, output, session) {
     cot100(
       bonus = modifier == "Bonus",
       malus = modifier == "Malus",
-      count = input$cot_modifier_count
+      mod_count = input$cot_modifier_count
     )
   })
 
@@ -77,8 +77,8 @@ shinyServer(function(input, output, session) {
       #width = 12,
       class = "dice-display",
       #h3("Result"),
-      tags$span(class = "cot-w1", paste("W1:", throw$w1), " / "),
-      tags$span(class = "cot-w10", paste("W10:", paste(throw$w10, collapse = ", "))), br(),
+      tags$span(class = "cot-w1", paste("Einer:", throw$w1), " / "),
+      tags$span(class = "cot-w10", paste("Zehner:", paste(throw$w10, collapse = ", "))), br(),
       tags$span(class = paste("cot-result label", res_modifier_class), throw$result)
     )
   })

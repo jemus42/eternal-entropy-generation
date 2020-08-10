@@ -25,69 +25,60 @@ label_throw_sr6 <- function(throw) {
 
 # Cthulu ----
 
-cot100 <- function(bonus = FALSE, malus = FALSE, count = 1) {
+cot100 <- function(bonus = FALSE, malus = FALSE, mod_count = 1) {
   if (bonus & malus) stop("Can't have it both ways")
+  if (!bonus & !malus) mod_count <- 0
+  mod_count <- as.integer(mod_count)
 
-  # browser()
   ret <- list(
     w1 = sample(0:9, size = 1),
-    w10 = sample(seq(0, 90, 10), size = 2, replace = TRUE),
+    w10 = sample(seq(0, 90, 10), size = 1 + mod_count, replace = TRUE),
     modifier = c("Bonus", "Malus")[c(bonus, malus)],
     result = NA
   )
 
-  if (count == 2) ret$w10 <- c(ret$w10, sample(seq(0, 90, 10), size = 1, replace = TRUE))
-
   if (length(ret$modifier) == 0) ret$modifier <- "None"
 
-  modifier_fun <- switch(ret$modifier,
-                         "Bonus" = min,
-                         "Malus" = max,
-                         "None" = dplyr::first
+  modifier_fun <- switch(
+    ret$modifier,
+    "Bonus" = min,
+    "Malus" = max,
+    "None" = dplyr::first
   )
 
   ret$result <- ret$w1 + ret$w10
-  ret$result <- purrr::map_dbl(ret$result, ~{
-    if (.x == 0) 100 else .x
-  })
+
+  ret$result <- ifelse(ret$result == 0, 100, ret$result)
 
   ret$result <- modifier_fun(ret$result)
 
-  if (!bonus & !malus) ret$w10 <- dplyr::first(ret$w10)
-
-  ret$string <- glue("{ret$w1} + ({paste(ret$w10, collapse = ',')}) = {ret$result}")
+  # ret$string <- glue("{ret$w1} + ({paste(ret$w10, collapse = ',')}) = {ret$result}")
 
   ret
 }
 
 # cot100()
-# # cot100(bonus = TRUE)
-# # cot100(malus = TRUE)
-#
+# cot100(bonus = TRUE, mod_count = 1)
+# cot100(bonus = TRUE, mod_count = 2)
+# cot100(malus = TRUE, mod_count = 1)
+# cot100(malus = TRUE, mod_count = 2)
+
 # summary(replicate(10000, cot100()$result))
 # summary(replicate(10000, cot100(bonus = TRUE)$result))
 # summary(replicate(10000, cot100(malus = TRUE)$result))
-#
-# purrr::map_df(1:1000, ~{
-#   cot100(TRUE) %>%
-#     as_tibble()
-# })
-#
 
 
 cot_dice <- function(sides = 4, bonus = FALSE, malus = FALSE, mod_count = 1) {
   if (bonus & malus) stop("Can't have it both ways")
+  if (!bonus & !malus) mod_count <- 0
+  mod_count <- as.integer(mod_count)
 
   ret <- list(
     sides = sides,
-    dice = sample(sides, size = 1),
+    dice = sample(sides, size = 1 + mod_count, replace = TRUE),
     modifier = c("Bonus", "Malus")[c(bonus, malus)],
     result = NA
   )
-
-  if (bonus | malus) {
-    ret$dice <- c(ret$dice, sample(sides, size = mod_count))
-  }
 
   if (length(ret$modifier) == 0) ret$modifier <- "None"
 
@@ -99,11 +90,19 @@ cot_dice <- function(sides = 4, bonus = FALSE, malus = FALSE, mod_count = 1) {
 
   ret$result <- modifier_fun(ret$dice)
 
-  #if (!bonus & !malus) ret$w10 <- dplyr::first(ret$w10)
-
   ret
 }
 
 # cot_dice(4)
 # cot_dice(6, bonus = TRUE)
 # cot_dice(8, bonus = TRUE, mod_count = 2)
+
+
+# summary(replicate(10000, cot100()$result))
+# summary(replicate(10000, cot_dice(sides = 100)$result))
+
+# bench::mark(
+#   cot_dice = cot_dice(100)$result,
+#   cot100 = cot100()$result,
+#   check = FALSE
+# )
