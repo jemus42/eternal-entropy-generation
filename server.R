@@ -77,8 +77,8 @@ shinyServer(function(input, output, session) {
       #width = 12,
       class = "dice-display",
       #h3("Result"),
-      tags$span(class = "cot-w1", throw$w1), br(),
-      tags$span(class = "cot-w10", paste(throw$w10, collapse = ", ")), br(),
+      tags$span(class = "cot-w1", paste("W1:", throw$w1), " / "),
+      tags$span(class = "cot-w10", paste("W10:", paste(throw$w10, collapse = ", "))), br(),
       tags$span(class = paste("cot-result label", res_modifier_class), throw$result)
     )
   })
@@ -160,6 +160,33 @@ shinyServer(function(input, output, session) {
     div(
       class = "dice-display",
       tags$span(class = "cot-w8", paste(throw$dice, collapse = ", ")), br(),
+      tags$span(class = paste("cot-result label", res_modifier_class), throw$result)
+    )
+  })
+
+  #COT D20
+  cot_d20_res <- eventReactive(input$cot_d20, ignoreInit = TRUE, {
+    modifier <- input$cot_modifier
+    cot_dice(
+      sides = 20,
+      bonus = modifier == "Bonus",
+      malus = modifier == "Malus",
+      mod_count = input$cot_modifier_count
+    )
+  })
+
+  output$cot_d20_out <- renderUI({
+    throw <- cot_d20_res()
+    res_modifier_class <- switch(
+      throw$modifier,
+      "Bonus" = "label-success",
+      "Malus" = "label-danger",
+      "None" = "label-info"
+    )
+
+    div(
+      class = "dice-display",
+      tags$span(class = "cot-w20", paste(throw$dice, collapse = ", ")), br(),
       tags$span(class = paste("cot-result label", res_modifier_class), throw$result)
     )
   })
