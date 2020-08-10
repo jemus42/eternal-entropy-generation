@@ -96,7 +96,6 @@ shinyServer(function(input, output, session) {
 
   output$cot_d4_out <- renderUI({
     throw <- cot_d4_res()
-
     res_modifier_class <- switch(
       throw$modifier,
       "Bonus" = "label-success",
@@ -107,6 +106,60 @@ shinyServer(function(input, output, session) {
     div(
       class = "dice-display",
       tags$span(class = "cot-w4", paste(throw$dice, collapse = ", ")), br(),
+      tags$span(class = paste("cot-result label", res_modifier_class), throw$result)
+    )
+  })
+
+  # COT d6
+  cot_d6_res <- eventReactive(input$cot_d6, ignoreInit = TRUE, {
+    modifier <- input$cot_modifier
+    cot_dice(
+      sides = 6,
+      bonus = modifier == "Bonus",
+      malus = modifier == "Malus",
+      mod_count = input$cot_modifier_count
+    )
+  })
+
+  output$cot_d6_out <- renderUI({
+    throw <- cot_d6_res()
+    res_modifier_class <- switch(
+      throw$modifier,
+      "Bonus" = "label-success",
+      "Malus" = "label-danger",
+      "None" = "label-info"
+    )
+
+    div(
+      class = "dice-display",
+      tags$span(class = "cot-w6", paste(throw$dice, collapse = ", ")), br(),
+      tags$span(class = paste("cot-result label", res_modifier_class), throw$result)
+    )
+  })
+
+  # COT d8
+  cot_d8_res <- eventReactive(input$cot_d8, ignoreInit = TRUE, {
+    modifier <- input$cot_modifier
+    cot_dice(
+      sides = 8,
+      bonus = modifier == "Bonus",
+      malus = modifier == "Malus",
+      mod_count = input$cot_modifier_count
+    )
+  })
+
+  output$cot_d8_out <- renderUI({
+    throw <- cot_d8_res()
+    res_modifier_class <- switch(
+      throw$modifier,
+      "Bonus" = "label-success",
+      "Malus" = "label-danger",
+      "None" = "label-info"
+    )
+
+    div(
+      class = "dice-display",
+      tags$span(class = "cot-w8", paste(throw$dice, collapse = ", ")), br(),
       tags$span(class = paste("cot-result label", res_modifier_class), throw$result)
     )
   })

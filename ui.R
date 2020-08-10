@@ -35,7 +35,8 @@ shinyUI(
                     radioButtons(
                       inputId = "cot_modifier", label = "Modifier",
                       choices = c("None", "Bonus", "Malus"),
-                      selected = "None"
+                      selected = "None",
+                      inline = FALSE
                     )
                   ),
                   hidden(
@@ -43,7 +44,8 @@ shinyUI(
                       width = 6,
                       radioButtons(
                         inputId = "cot_modifier_count", label = "Modifier Dice",
-                        choices = 1:2, selected = 1
+                        choices = 1:2, selected = 1,
+                        inline = TRUE
                       )
                     )
                   )
