@@ -7,9 +7,11 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    user: 'shiny'
+    # user: 'shiny'
     # Uncomment the lines below to disable application logs STDOUT output
     # environment:
     #   - APPLICATION_LOGS_TO_STDOUT=false
+    volumes:
+      - .:/srv/shiny-server
     ports:
       - '3840:3838'
