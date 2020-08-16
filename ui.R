@@ -54,7 +54,7 @@ shinyUI(
               column(width = 10,
                 fluidRow(
                   column(
-                    width = 4,
+                    width = 2,
                     actionButton(inputId = "cot_d100", label = "1W100", width = "100%"),
                     htmlOutput(outputId = "cot_d100_out")
                   ),
@@ -72,6 +72,11 @@ shinyUI(
                     width = 2,
                     actionButton(inputId = "cot_d8", label = "1W8", width = "100%"),
                     htmlOutput(outputId = "cot_d8_out")
+                  ),
+                  column(
+                    width = 2,
+                    actionButton(inputId = "cot_d10", label = "1W10", width = "100%"),
+                    htmlOutput(outputId = "cot_d10_out")
                   ),
                   column(
                     width = 2,
